@@ -17,3 +17,9 @@ endif ()
 
 include_directories(lib)
 add_executable(RMCode main.cpp)
+
+find_package(benchmark)
+if (benchmark_FOUND)
+    add_executable(benchmark benchmark.cpp)
+    target_link_libraries(benchmark benchmark::benchmark)
+endif (benchmark_FOUND)

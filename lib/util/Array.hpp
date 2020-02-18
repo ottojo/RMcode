@@ -1,6 +1,8 @@
 #ifndef RMCODE_ARRAY_HPP
 #define RMCODE_ARRAY_HPP
 
+#include <random>
+
 namespace util {
     class Array {
     public:
@@ -59,6 +61,21 @@ namespace util {
                 r += std::to_string(b);
             }
             return r;
+        }
+
+        /**
+         * Generates random bool array of length n
+         * @tparam n length of output vector
+         * @param generator random number generator
+         */
+        template<int n>
+        static std::array<bool, n> randomBool(std::mt19937 &generator) {
+            std::array<bool, n> result;
+            auto distribution = std::uniform_int_distribution<>(0, 1);
+            for (auto i = 0; i < n; i++) {
+                result.at(i) = distribution(generator);
+            }
+            return result;
         }
     };
 }
