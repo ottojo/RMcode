@@ -1,10 +1,3 @@
-/**
- * @file RMCode.hpp
- * @author jonas
- * @date 2/14/20
- * Description here TODO
- */
-
 #ifndef RMCODE_RMCODE_HPP
 #define RMCODE_RMCODE_HPP
 
@@ -13,23 +6,23 @@
 #include <optional>
 #include <util/Array.hpp>
 
-template<unsigned int r, unsigned int m>
+template<std::size_t r, std::size_t m>
 class RMCode {
 public:
-    static constexpr unsigned int getN() {
+    static constexpr std::size_t getN() {
         // Hacky constexpr 2^m
         return 1u << m;
     }
 
-    static constexpr unsigned int getK() {
-        unsigned int k = 0;
-        for (unsigned int i = 0; i <= r; i++) {
+    static constexpr std::size_t getK() {
+        std::size_t k = 0;
+        for (std::size_t i = 0; i <= r; i++) {
             k += util::Math::binom(m, i);
         }
         return k;
     }
 
-    static constexpr unsigned int getD() {
+    static constexpr std::size_t getD() {
         // 2^(m-r)
         return 1u << (m - r);
     }
@@ -39,7 +32,7 @@ public:
      * @param input y=c+e
      * @return c
      */
-    static auto getValidCodeword(std::array<bool, getN()> input) -> std::optional<std::array<bool, getN()>> {
+    static auto getValidCodeword(const std::array<bool, getN()> &input) -> std::optional<std::array<bool, getN()>> {
         auto y_u = util::Array::firstK<getN() / 2>(input);
         auto y_v = util::Array::lastK<getN() / 2>(input);
 
@@ -71,19 +64,19 @@ public:
     }
 };
 
-template<unsigned int m>
+template<std::size_t m>
 class RMCode<0, m> {
 public:
-    static constexpr int getN() {
+    static constexpr std::size_t getN() {
         // Hacky constexpr 2^m
         return 1u << m;
     }
 
-    static constexpr int getK() {
+    static constexpr std::size_t getK() {
         return 1;
     }
 
-    static constexpr int getD() {
+    static constexpr std::size_t getD() {
         // 2^(m-r)
         return 1u << (m - 0);
     }
@@ -96,7 +89,7 @@ public:
      * @param input y=c+e
      * @return c
      */
-    static auto getValidCodeword(std::array<bool, getN()> input) -> std::optional<std::array<bool, getN()>> {
+    static auto getValidCodeword(const std::array<bool, getN()> &input) -> std::optional<std::array<bool, getN()>> {
         auto zeros = 0;
         auto ones = 0;
         for (auto bit : input) {
@@ -120,18 +113,18 @@ public:
     };
 };
 
-template<unsigned int m>
+template<std::size_t m>
 class RMCode<m, m> {
 public:
-    static constexpr int getN() {
+    static constexpr std::size_t getN() {
         return 1u << m;
     }
 
-    static constexpr int getK() {
+    static constexpr std::size_t getK() {
         return getN();
     }
 
-    static constexpr int getD() {
+    static constexpr std::size_t getD() {
         return 1;
     }
 
@@ -143,7 +136,7 @@ public:
         * @param input y=c+e
         * @return c
         */
-    static auto getValidCodeword(std::array<bool, getN()> input) -> std::optional<std::array<bool, getN()>> {
+    static auto getValidCodeword(const std::array<bool, getN()> &input) -> std::optional<std::array<bool, getN()>> {
         return input;
     }
 };

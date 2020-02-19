@@ -68,11 +68,11 @@ namespace util {
          * @tparam n length of output vector
          * @param generator random number generator
          */
-        template<int n>
+        template<std::size_t n>
         static std::array<bool, n> randomBool(std::mt19937 &generator) {
             std::array<bool, n> result;
             auto distribution = std::uniform_int_distribution<>(0, 1);
-            for (auto i = 0; i < n; i++) {
+            for (std::size_t i = 0; i < n; i++) {
                 result.at(i) = distribution(generator);
             }
             return result;
